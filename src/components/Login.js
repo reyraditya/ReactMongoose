@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux'
+
+import {onLoginClick} from '../actions'
 
 
 class Login extends Component {
+    onSubmitClick = () => {
+        const email = this.email.value
+        const password = this.password.value
+        this.props.onLoginClick(email, password)
+      }
+
     render() {
         return (
             <div className="mt-5 row">
@@ -20,7 +29,7 @@ class Login extends Component {
                         </div>
                         <form className="input-group"><input ref={input => this.password = input} className="form-control" type="password"/></form>
                         <div className="d-flex justify-content-center my-3">
-                            <button className="btn btn-success btn-block" onClick={this.onButtonClick}>Login</button>
+                            <button className="btn btn-success btn-block" onClick={this.onSubmitClick}>Login</button>
                         </div>
                         {/* {this.onErrorLogin()} */}
                         <p className="lead">Don't have account ? <Link to="/register">Sign Up!</Link></p>
@@ -31,4 +40,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default connect(null, {onLoginClick})(Login);
