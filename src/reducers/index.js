@@ -4,6 +4,6 @@ import AuthReducer from './AuthReducer';
 
 export default combineReducers(
     {
-        dummyStore: () => 2019
+        dummyStore: () => 2009
     }
 )
