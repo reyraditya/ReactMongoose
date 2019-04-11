@@ -29,7 +29,7 @@ class Login extends Component {
                         </div>
                         <form className="input-group"><input ref={input => this.password = input} className="form-control" type="password"/></form>
                         <div className="d-flex justify-content-center my-3">
-                            <button className="btn btn-success btn-block" onClick={this.onSubmitClick}>Login</button>
+                            <Link to="/"><button className="btn btn-success btn-block" onClick={this.onSubmitClick}>Login</button></Link>
                         </div>
                         {/* {this.onErrorLogin()} */}
                         <p className="lead">Don't have account ? <Link to="/register">Sign Up!</Link></p>

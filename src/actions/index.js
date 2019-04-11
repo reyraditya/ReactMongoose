@@ -1,7 +1,7 @@
 import axios from '../config/axios';
-import cookies from 'universal-cookie';
+import Cookies from 'universal-cookie';
 
-const cookie = new cookies()
+const cookie = new Cookies()
 
  export const onRegister = (name, age, email, password) => {
      return () => {
@@ -27,11 +27,11 @@ export const onLoginClick = (email, password) => {
 
 
             dispatch({
-            type: 'LOGIN_SUCCESS',
+                type: 'LOGIN_SUCCESS',
                 payload: {
-                id: res.data._id, name: res.data.name
-            }
-        })
+                    id: res.data._id, name: res.data.name
+                }
+            })
 
         } catch (e) {
             console.log(e);
