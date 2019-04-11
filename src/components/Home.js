@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import axios from '../config/axios';
 
 
+
 const cookie = new Cookies()
 
 
@@ -13,13 +14,13 @@ class Home extends Component {
         tasks: []
     }
 
-     componentDidMount () {
+    componentDidMount () {
         this.getTasks();
     }
 
-     getTasks = async () => {
+    getTasks = async () => {
         try {
-            const res = await axios.get(`/tasks/${this.props.id}`)
+            const res = await axios.get(`/tasks/${cookie.get('idLogin')}`)
             this.setState({tasks: res.data})
         } catch (e) {
             console.log(e);
@@ -31,7 +32,7 @@ class Home extends Component {
         this.getTasks()
     }
 
-     renderList = () => {
+    renderList = () => {
         return this.state.tasks.map (task => {
             return (
                 <li onDoubleClick={() => {this.onDouble(task._id)}} className="list-group-item d-flex justify-content-between row-hl" key={task._id}>
@@ -56,11 +57,11 @@ class Home extends Component {
         } catch (e) {
             console.log(e);
 
-         }
+        }
 
      }
 
-     doneTask = async (taskid, userid) => {
+    doneTask = async (taskid, userid) => {
         try {
            await axios.patch(`/tasks/${taskid}/${userid}`, {
                completed: true
@@ -76,11 +77,11 @@ class Home extends Component {
             return(
                 <div className='container'>
                 <h1 className="display-4 text-center animated bounce delay-1s">Todo List</h1>
-                    <ul className="list-group list-group-flush mb-5">{this.renderList()}</ul>
                     <form className="form-group mt-5">
                         <input type="text" className="form-control" placeholder="What are you planning to do today?" ref={input => this.task = input}/>
                     </form>
                     <button type="submit" className="btn btn-block btn-primary mt-3" onClick={() => this.addTask(this.props.id)}>Lets Go !</button>
+                    <ul className="list-group list-group-flush mb-5 mt-4">{this.renderList()}</ul>
             </div>
             )
         } return <Redirect to='/login'/>

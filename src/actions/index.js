@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 
 const cookie = new Cookies()
 
- export const onRegister = (name, age, email, password) => {
+export const onRegister = (name, age, email, password) => {
      return () => {
          axios.post('/users', {
              name, age, email, password
@@ -38,4 +38,27 @@ export const onLoginClick = (email, password) => {
 
         }
     }
+}
+
+export const keepLogin = (name, id) => {
+    if(name === undefined && id === undefined){
+        return{
+            type: 'KEEP_LOGIN',
+            payload: {
+                id: '',
+                name: ''
+            }
+        } 
+    }return{
+        type: 'KEEP_LOGIN',
+        payload: {
+            id, name
+        }
+    }
+}
+
+export const onLogoutUser = (name, id) => {
+    cookie.remove('masihLogin')
+    cookie.remove('idLogin')
+    return {type: 'LOGOUT_USER'}
 }

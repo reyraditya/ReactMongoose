@@ -15,6 +15,7 @@ import {
     UncontrolledDropdown
     } from 'reactstrap';
 
+import {onLogoutUser} from '../actions/index'
     
 class Header extends Component {
     constructor(props) {
@@ -31,6 +32,9 @@ class Header extends Component {
             isOpen: !this.state.isOpen
         }));
       }
+
+    
+    
     render() {
         const {user} = this.props
 
@@ -93,4 +97,4 @@ const mapStateToProps = (state) => {
     return {user: state.auth}
 }
 
-export default connect (mapStateToProps,{})(Header);
+export default connect (mapStateToProps, {onLogoutUser})(Header);
