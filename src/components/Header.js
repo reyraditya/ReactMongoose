@@ -74,10 +74,13 @@ class Header extends Component {
                                         <Link className="nav-link" to="/">Tasks</Link>
                                     </NavItem>
                                     <UncontrolledDropdown nav inNavbar>
-                                        <DropdownToggle nav caret>
+                                        <DropdownToggle nav caret className="text-capitalize">
                                             Welcome, {user.name}
                                         </DropdownToggle>
                                         <DropdownMenu right>
+                                        <Link to="/profile"><Button className="dropdown-item">
+                                            Profile
+                                        </Button></Link>
                                         <Button className="dropdown-item" onClick={this.props.onLogoutUser}>
                                             Log out
                                         </Button>

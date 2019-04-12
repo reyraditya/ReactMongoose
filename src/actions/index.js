@@ -52,7 +52,8 @@ export const keepLogin = (name, id) => {
     }return{
         type: 'KEEP_LOGIN',
         payload: {
-            id, name
+            id, 
+            name
         }
     }
 }
