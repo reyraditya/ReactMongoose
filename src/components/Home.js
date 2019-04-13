@@ -37,8 +37,7 @@ class Home extends Component {
             return (
                 <li onDoubleClick={() => {this.onDouble(task._id)}} className="list-group-item d-flex justify-content-between row-hl" key={task._id}>
                 <span className="item-hl">{task.description}</span>
-
-                 <span className="item-hl">
+                <span className="item-hl">
                 <button className='btn btn-outline-primary' onClick={() => {this.doneTask(task._id, this.props.id)}}>Done</button>
                 </span>
                 </li>

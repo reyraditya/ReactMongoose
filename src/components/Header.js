@@ -81,9 +81,9 @@ class Header extends Component {
                                         <Link to="/profile"><Button className="dropdown-item">
                                             Profile
                                         </Button></Link>
-                                        <Button className="dropdown-item" onClick={this.props.onLogoutUser}>
+                                        <Link to="/login"><Button className="dropdown-item" onClick={this.props.onLogoutUser}>
                                             Log out
-                                        </Button>
+                                        </Button></Link>
                                         
                                         </DropdownMenu>
                                     </UncontrolledDropdown>
