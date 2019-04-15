@@ -25,6 +25,7 @@ export const onLoginClick = (email, password) => {
             cookie.set('masihLogin', res.data.name, { path: '/' })
             cookie.set('idLogin', res.data._id, { path: '/' })
             cookie.set('age', res.data.age, { path: '/' })
+            cookie.set('email', res.data.email, { path: '/' })
 
 
             dispatch({
@@ -32,7 +33,8 @@ export const onLoginClick = (email, password) => {
                 payload: {
                     id: res.data._id, 
                     name: res.data.name,
-                    age: res.data.age
+                    age: res.data.age,
+                    email: res.data.email
                 }
             })
 
@@ -43,14 +45,45 @@ export const onLoginClick = (email, password) => {
     }
 }
 
-export const keepLogin = (name, id, age) => {
+export const editProfile = (name, age, email, userid) => {
+    return async dispatch => {
+        try {
+            const res = await axios.patch(`/users/${userid}`, {
+                name, age, email
+            });
+
+            cookie.get('masihLogin', res.data.name, { path: '/' })
+            cookie.get('idLogin', res.data._id, { path: '/' })
+            cookie.get('age', res.data.age, { path: '/' })
+            cookie.get('email', res.data.email, { path: '/' })
+            console.log(res);
+
+            dispatch({
+                type: 'EDIT_SUCCESS',
+                payload: {
+                    id: res.data._id,
+                    name: res.data.name,
+                    age: res.data.age,
+                    email: res.data.email
+                }
+            })
+            
+        } catch (e) {
+            console.log(e);
+            
+        }
+    }
+}
+
+export const keepLogin = (name, id, age, email) => {
     if(name === undefined && id === undefined){
         return{
             type: 'KEEP_LOGIN',
             payload: {
                 id: '',
                 name: '',
-                age: ''
+                age: 0,
+                email: ''
             }
         } 
     }return{
@@ -58,7 +91,8 @@ export const keepLogin = (name, id, age) => {
         payload: {
             id, 
             name,
-            age
+            age,
+            email
         }
     }
 }
@@ -68,5 +102,6 @@ export const onLogoutUser = () => {
     cookie.remove('idLogin')
     cookie.remove('age')
     cookie.remove('name')
+    cookie.remove('email')
     return {type: 'LOGOUT_USER'}
 }

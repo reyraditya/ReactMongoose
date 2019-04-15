@@ -15,8 +15,8 @@ const cookie = new Cookies()
 
 class App extends Component {
     componentDidMount(){
-        this.props.keepLogin(cookie.get("masihLogin"), cookie.get("idLogin"), cookie.get("age"))
-    }
+        this.props.keepLogin(cookie.get("masihLogin"), cookie.get("idLogin"), cookie.get("age"), cookie.get("email")         
+    )}
 
     render(){
         return(

@@ -27,21 +27,30 @@ class Home extends Component {
         }
     }
 
-    onDouble = async (taskid) => {
-        await axios.delete('/tasks',{data: {id: taskid}})
+    onDouble = async (taskid, owner) => {
+        await axios.delete('/tasks',{data: {taskid, owner}})
         this.getTasks()
     }
 
     renderList = () => {
         return this.state.tasks.map (task => {
-            return (
-                <li onDoubleClick={() => {this.onDouble(task._id)}} className="list-group-item d-flex justify-content-between row-hl" key={task._id}>
-                <span className="item-hl">{task.description}</span>
-                <span className="item-hl">
-                <button className='btn btn-outline-primary' onClick={() => {this.doneTask(task._id, this.props.id)}}>Done</button>
-                </span>
+            if(task.completed === false){
+                return (
+                <li onDoubleClick={() => {this.onDouble(task._id, this.props.id)}} className="list-group-item d-flex justify-content-between row-hl" key={task._id}>
+                    <span className="item-hl">{task.description}</span>
+                    <span className="item-hl">
+                    <button className='btn btn-outline-primary' onClick={() => {this.doneTask(task._id, this.props.id)}}>Done</button>
+                    </span>
                 </li>
-            );
+                );
+            } return(
+                <li onDoubleClick={() => {this.onDouble(task._id, this.props.id)}} className="list-group-item d-flex justify-content-between row-hl" key={task._id}>
+                    <span className="item-hl">{task.description}</span>
+                    <span className="item-hl">
+                    <button className='btn btn-outline-warning' onClick={() => {this.undoneTask(task._id, this.props.id)}}>Undone</button>
+                    </span>
+                </li>
+            )
         })
     }
 
@@ -64,6 +73,17 @@ class Home extends Component {
         try {
            await axios.patch(`/tasks/${taskid}/${userid}`, {
                completed: true
+           })
+           this.getTasks()
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    undoneTask = async (taskid, userid) => {
+        try {
+           await axios.patch(`/tasks/${taskid}/${userid}`, {
+               completed: false
            })
            this.getTasks()
         } catch (e) {
