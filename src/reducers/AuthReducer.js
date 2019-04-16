@@ -2,7 +2,8 @@ const init = {
     id: '',
     name: '',
     age: '',
-    email: ''
+    email: '',
+    password: ''
 }
 
  export default (state = init, action) => {
@@ -13,7 +14,8 @@ const init = {
                 id: action.payload.id, 
                 name: action.payload.name, 
                 age: action.payload.age, 
-                email: action.payload.email
+                email: action.payload.email,
+                password: action.payload.password
             };
 
         case 'KEEP_LOGIN':
@@ -22,7 +24,8 @@ const init = {
                 id: action.payload.id, 
                 name: action.payload.name, 
                 age: action.payload.age, 
-                email: action.payload.email
+                email: action.payload.email,
+                password: action.payload.password
             };
 
         case 'EDIT_SUCCESS':
@@ -31,7 +34,8 @@ const init = {
                 id: action.payload.id,
                 name: action.payload.name,
                 age: action.payload.age,
-                email: action.payload.email
+                email: action.payload.email,
+                password: action.payload.password
             };
 
         case 'LOGOUT_USER':

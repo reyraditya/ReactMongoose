@@ -13,8 +13,8 @@ const cookie = new Cookies()
 
 class Profile extends Component {
     state = {
-        // avatar: '',
-        edit: true
+        edit: true,
+        editAvatar: 0
     }
 
     // componentDidMount () {
@@ -35,6 +35,8 @@ class Profile extends Component {
         const formData = new FormData()
         var imagefile = this.gambar
 
+        const date = new Date().getTime()
+
         formData.append('avatar', imagefile.files[0])
 
         try {
@@ -43,6 +45,7 @@ class Profile extends Component {
                     'Content-Type' : 'multipart/form-data'
                 }
             })
+            this.setState({editAvatar: date})
             console.log("berhasil upload file");
 
         } catch (e) {
@@ -51,10 +54,13 @@ class Profile extends Component {
         }
     }
 
-    deleteAvatar = async (userid) => {
-       try {
-           await axios.delete(`/users/${userid}/avatar`)
-       } catch (e) {
+    deleteAvatar = async (userid, ava) => {
+        const date = new Date().getTime()
+
+        try {
+           await axios.delete(`/users/${userid}/avatar/${ava}`)
+           this.setState({editAvatar: date})
+        } catch (e) {
            console.log(e);
            
        }
@@ -74,7 +80,8 @@ class Profile extends Component {
        const name = this.name.value;
        const age = this.age.value;
        const email = this.email.value;
-       this.props.editProfile(name, age, email, userid);
+       const password = this.password.value;
+       this.props.editProfile(name, age, email, password, userid);
        this.setState({edit: !this.state.edit})
     }
 
@@ -107,6 +114,9 @@ class Profile extends Component {
                 <div className="mt-2">
                     Email: <input type="email" ref={input => {this.email = input}} defaultValue={email}></input>
                 </div>
+                <div className="mt-2">
+                    Password: <input type="password" ref={input => {this.password = input}}></input>
+                </div>
                 <Button color="success" className="mt-3" onClick={() => {this.saveProfile(id)}}>Save profile</Button>
                 <Button color="warning" className="mt-3 ml-2" onClick={() => {this.cancelEdit()}}>Cancel</Button>
             </div>
@@ -118,7 +128,7 @@ class Profile extends Component {
         if(cookie.get('idLogin')){
             return (
               <div className="container">
-                <img alt="img" src={`http://localhost:2009/users/${cookie.get('idLogin')}/avatar`} className="mt-4 mb-4"/>
+                <img alt="img" src={`http://localhost:2009/users/${cookie.get('idLogin')}/avatar/${this.state.editAvatar}`} className="mt-4 mb-4"/>
                 <div className="custom-file">
                   <input type="file" id="myfile" ref={input => (this.gambar = input)}/>
                 </div>

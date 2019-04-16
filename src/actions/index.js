@@ -26,6 +26,7 @@ export const onLoginClick = (email, password) => {
             cookie.set('idLogin', res.data._id, { path: '/' })
             cookie.set('age', res.data.age, { path: '/' })
             cookie.set('email', res.data.email, { path: '/' })
+            cookie.set('password', res.data.password, { path: '/' })
 
 
             dispatch({
@@ -34,7 +35,8 @@ export const onLoginClick = (email, password) => {
                     id: res.data._id, 
                     name: res.data.name,
                     age: res.data.age,
-                    email: res.data.email
+                    email: res.data.email,
+                    password: res.data.password
                 }
             })
 
@@ -45,17 +47,24 @@ export const onLoginClick = (email, password) => {
     }
 }
 
-export const editProfile = (name, age, email, userid) => {
+export const editProfile = (name, age, email, password, userid) => {
     return async dispatch => {
         try {
-            const res = await axios.patch(`/users/${userid}`, {
-                name, age, email
-            });
+            if(password === ''){
+                var res = await axios.patch(`/users/${userid}`, {
+                    name, age, email,
+                });
+            } else{
+                var res = await axios.patch(`/users/${userid}`, {
+                name, age, email, password
+                })
+            } 
 
             cookie.get('masihLogin', res.data.name, { path: '/' })
             cookie.get('idLogin', res.data._id, { path: '/' })
             cookie.get('age', res.data.age, { path: '/' })
             cookie.get('email', res.data.email, { path: '/' })
+            cookie.get('password', res.data.password, { path: '/' })
             console.log(res);
 
             dispatch({
@@ -64,7 +73,8 @@ export const editProfile = (name, age, email, userid) => {
                     id: res.data._id,
                     name: res.data.name,
                     age: res.data.age,
-                    email: res.data.email
+                    email: res.data.email,
+                    password: res.data.password
                 }
             })
             
@@ -75,7 +85,7 @@ export const editProfile = (name, age, email, userid) => {
     }
 }
 
-export const keepLogin = (name, id, age, email) => {
+export const keepLogin = (name, id, age, email, password) => {
     if(name === undefined && id === undefined){
         return{
             type: 'KEEP_LOGIN',
@@ -83,7 +93,8 @@ export const keepLogin = (name, id, age, email) => {
                 id: '',
                 name: '',
                 age: 0,
-                email: ''
+                email: '',
+                password: ''
             }
         } 
     }return{
@@ -92,7 +103,8 @@ export const keepLogin = (name, id, age, email) => {
             id, 
             name,
             age,
-            email
+            email,
+            password
         }
     }
 }
@@ -103,5 +115,6 @@ export const onLogoutUser = () => {
     cookie.remove('age')
     cookie.remove('name')
     cookie.remove('email')
+    cookie.remove('password')
     return {type: 'LOGOUT_USER'}
 }
